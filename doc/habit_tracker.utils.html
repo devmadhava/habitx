@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module habit_tracker.utils</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="habit_tracker.html"><font color="#ffffff">habit_tracker</font></a>.utils</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Cdesktop_2025%5Ccoll-projects%5Chabit_x%5Chabit_tracker%5Cutils.py">d:\desktop_2025\coll-projects\habit_x\habit_tracker\utils.py</a></font></td></tr></table>
+    <p><tt>Module&nbsp;containing&nbsp;utility&nbsp;functions&nbsp;and&nbsp;decorators&nbsp;for&nbsp;handling&nbsp;database&nbsp;operations,<br>
+timezone-aware&nbsp;datetime&nbsp;parsing,&nbsp;formatting,&nbsp;and&nbsp;conversion&nbsp;in&nbsp;the&nbsp;habit&nbsp;tracking&nbsp;application.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides:<br>
+-&nbsp;A&nbsp;decorator&nbsp;for&nbsp;handling&nbsp;database-related&nbsp;errors&nbsp;consistently&nbsp;(`database_error_handler`).<br>
+-&nbsp;Helper&nbsp;functions&nbsp;for&nbsp;manipulating&nbsp;and&nbsp;converting&nbsp;dates&nbsp;and&nbsp;times:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-format_date_to_string">format_date_to_string</a>(dt)`:&nbsp;Converts&nbsp;a&nbsp;datetime&nbsp;object&nbsp;to&nbsp;'dd.mm.yyyy'&nbsp;string&nbsp;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-get_current_utc_time">get_current_utc_time</a>()`:&nbsp;Returns&nbsp;the&nbsp;current&nbsp;time&nbsp;in&nbsp;UTC.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-parse_iso_datetime">parse_iso_datetime</a>(date_str)`:&nbsp;Parses&nbsp;an&nbsp;ISO&nbsp;8601&nbsp;formatted&nbsp;datetime&nbsp;string&nbsp;into&nbsp;a&nbsp;datetime&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-convert_user_date_str_to_iso">convert_user_date_str_to_iso</a>(date)`:&nbsp;Converts&nbsp;a&nbsp;user-provided&nbsp;'dd/mm/yyyy'&nbsp;string&nbsp;to&nbsp;ISO&nbsp;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-parse_user_date_str_to_datetime">parse_user_date_str_to_datetime</a>(date_str)`:&nbsp;Parses&nbsp;a&nbsp;user&nbsp;'dd/mm/yyyy'&nbsp;string&nbsp;to&nbsp;a&nbsp;datetime&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-format_datetime_for_user">format_datetime_for_user</a>(dt,&nbsp;timezone)`:&nbsp;Converts&nbsp;and&nbsp;formats&nbsp;a&nbsp;UTC&nbsp;datetime&nbsp;to&nbsp;the&nbsp;user's&nbsp;timezone.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-convert_iso_to_date">convert_iso_to_date</a>(iso_str)`:&nbsp;Converts&nbsp;an&nbsp;ISO&nbsp;8601&nbsp;string&nbsp;or&nbsp;datetime&nbsp;to&nbsp;a&nbsp;UTC-aware&nbsp;datetime&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-date_str_to_utc_iso">date_str_to_utc_iso</a>(date_str,&nbsp;tz)`:&nbsp;Converts&nbsp;a&nbsp;day-first&nbsp;date&nbsp;string&nbsp;in&nbsp;user&nbsp;timezone&nbsp;to&nbsp;ISO&nbsp;UTC&nbsp;string.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;`<a href="#-is_valid_timezone">is_valid_timezone</a>(tz)`:&nbsp;Checks&nbsp;if&nbsp;a&nbsp;timezone&nbsp;string&nbsp;is&nbsp;valid&nbsp;using&nbsp;pytz.<br>
+&nbsp;<br>
+These&nbsp;functions&nbsp;ensure&nbsp;consistency&nbsp;in&nbsp;date&nbsp;handling,&nbsp;help&nbsp;maintain&nbsp;correct&nbsp;timezone&nbsp;conversions,<br>
+and&nbsp;provide&nbsp;robust&nbsp;error&nbsp;handling&nbsp;throughout&nbsp;the&nbsp;habit&nbsp;tracking&nbsp;application.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="dateutil.parser.html">dateutil.parser</a><br>
+</td><td width="25%" valign=top><a href="pytz.html">pytz</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-convert_iso_to_date"><strong>convert_iso_to_date</strong></a>(iso_str)</dt><dd><tt>Convert&nbsp;an&nbsp;ISO&nbsp;8601&nbsp;string&nbsp;or&nbsp;datetime&nbsp;object&nbsp;to&nbsp;a&nbsp;timezone-aware&nbsp;datetime&nbsp;object&nbsp;in&nbsp;UTC.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iso_str&nbsp;(str&nbsp;|&nbsp;datetime):&nbsp;The&nbsp;ISO&nbsp;8601&nbsp;string&nbsp;or&nbsp;a&nbsp;datetime&nbsp;object.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datetime:&nbsp;A&nbsp;timezone-aware&nbsp;datetime&nbsp;object&nbsp;in&nbsp;UTC.</tt></dd></dl>
+ <dl><dt><a name="-convert_user_date_str_to_iso"><strong>convert_user_date_str_to_iso</strong></a>(date)</dt><dd><tt>Converts&nbsp;a&nbsp;date&nbsp;string&nbsp;provided&nbsp;by&nbsp;the&nbsp;user&nbsp;in&nbsp;day-first&nbsp;format<br>
+(e.g.,&nbsp;'15/10/2021')&nbsp;into&nbsp;an&nbsp;ISO&nbsp;format&nbsp;string&nbsp;('YYYY-MM-DD').<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;date&nbsp;(str):&nbsp;The&nbsp;date&nbsp;string&nbsp;in&nbsp;day-first&nbsp;format&nbsp;(e.g.,&nbsp;'15/10/2021').<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;The&nbsp;converted&nbsp;date&nbsp;string&nbsp;in&nbsp;ISO&nbsp;format&nbsp;(e.g.,&nbsp;'2021-10-15').<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-convert_user_date_str_to_iso">convert_user_date_str_to_iso</a>('15/10/2021')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:&nbsp;'2021-10-15'</tt></dd></dl>
+ <dl><dt><a name="-database_error_handler"><strong>database_error_handler</strong></a>(func)</dt><dd><tt>A&nbsp;decorator&nbsp;to&nbsp;handle&nbsp;common&nbsp;database-related&nbsp;errors&nbsp;such&nbsp;as&nbsp;DatabaseError,<br>
+IntegrityError,&nbsp;and&nbsp;ValueError.&nbsp;If&nbsp;any&nbsp;of&nbsp;these&nbsp;errors&nbsp;occur,&nbsp;it&nbsp;returns<br>
+an&nbsp;error&nbsp;message&nbsp;in&nbsp;a&nbsp;consistent&nbsp;format.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;func&nbsp;(function):&nbsp;The&nbsp;function&nbsp;to&nbsp;wrap&nbsp;and&nbsp;apply&nbsp;error&nbsp;handling.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;wrapper&nbsp;(function):&nbsp;A&nbsp;wrapped&nbsp;function&nbsp;that&nbsp;catches&nbsp;and&nbsp;handles&nbsp;database&nbsp;errors.</tt></dd></dl>
+ <dl><dt><a name="-date_str_to_utc_iso"><strong>date_str_to_utc_iso</strong></a>(date_str: str, tz: &lt;module 'pytz.tzinfo' from 'C:\\Users\\sharm\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python310\\site-packages\\pytz\\tzinfo.py'&gt; = &lt;UTC&gt;) -&gt; str</dt></dl>
+ <dl><dt><a name="-format_date_to_string"><strong>format_date_to_string</strong></a>(dt)</dt><dd><tt>Converts&nbsp;a&nbsp;given&nbsp;datetime&nbsp;object&nbsp;to&nbsp;a&nbsp;string&nbsp;in&nbsp;'dd.mm.yyyy'&nbsp;format.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dt&nbsp;(datetime):&nbsp;The&nbsp;datetime&nbsp;object&nbsp;to&nbsp;format.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;The&nbsp;formatted&nbsp;date&nbsp;as&nbsp;a&nbsp;string,&nbsp;or&nbsp;None&nbsp;if&nbsp;the&nbsp;datetime&nbsp;is&nbsp;None.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-format_date_to_string">format_date_to_string</a>(datetime(2021,&nbsp;10,&nbsp;15))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:&nbsp;'15.10.2021'</tt></dd></dl>
+ <dl><dt><a name="-format_datetime_for_user"><strong>format_datetime_for_user</strong></a>(dt: datetime.datetime, timezone: str, fmt='%d.%m.%Y') -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;UTC&nbsp;datetime&nbsp;object&nbsp;to&nbsp;user's&nbsp;timezone&nbsp;and&nbsp;formats&nbsp;it.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dt&nbsp;(datetime):&nbsp;UTC&nbsp;datetime&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timezone&nbsp;(str,&nbsp;optional):&nbsp;User&nbsp;timezone&nbsp;(e.g.,&nbsp;'Asia/Kolkata')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fmt&nbsp;(str):&nbsp;Format&nbsp;string&nbsp;to&nbsp;return&nbsp;(default:&nbsp;'%d.%m.%Y')<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;Formatted&nbsp;datetime&nbsp;string&nbsp;in&nbsp;user&nbsp;timezone</tt></dd></dl>
+ <dl><dt><a name="-get_current_utc_time"><strong>get_current_utc_time</strong></a>()</dt><dd><tt>Returns&nbsp;the&nbsp;current&nbsp;time&nbsp;in&nbsp;UTC&nbsp;timezone.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datetime:&nbsp;The&nbsp;current&nbsp;UTC&nbsp;time.</tt></dd></dl>
+ <dl><dt><a name="-is_valid_timezone"><strong>is_valid_timezone</strong></a>(tz: str | pytz.tzinfo.BaseTzInfo) -&gt; bool</dt><dd><tt>Check&nbsp;if&nbsp;a&nbsp;given&nbsp;timezone&nbsp;string&nbsp;or&nbsp;pytz&nbsp;timezone&nbsp;object&nbsp;is&nbsp;valid.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tz&nbsp;(str&nbsp;|&nbsp;pytz.tzinfo.BaseTzInfo):&nbsp;The&nbsp;timezone&nbsp;to&nbsp;validate,&nbsp;either&nbsp;as&nbsp;a&nbsp;string&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(e.g.,&nbsp;"Asia/Kolkata")&nbsp;or&nbsp;as&nbsp;a&nbsp;pytz&nbsp;timezone&nbsp;object.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;the&nbsp;timezone&nbsp;is&nbsp;valid,&nbsp;False&nbsp;otherwise.<br>
+&nbsp;<br>
+Examples:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-is_valid_timezone">is_valid_timezone</a>("UTC")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Returns:&nbsp;True<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-is_valid_timezone">is_valid_timezone</a>(pytz.timezone("UTC"))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Returns:&nbsp;True<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-is_valid_timezone">is_valid_timezone</a>("Mars/Phobos")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Returns:&nbsp;False</tt></dd></dl>
+ <dl><dt><a name="-parse_iso_datetime"><strong>parse_iso_datetime</strong></a>(date_str)</dt><dd><tt>Parses&nbsp;a&nbsp;datetime&nbsp;string&nbsp;in&nbsp;ISO&nbsp;format&nbsp;(e.g.,&nbsp;'2021-10-15T13:45:00')&nbsp;into&nbsp;a<br>
+Python&nbsp;datetime&nbsp;object.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;date_str&nbsp;(str):&nbsp;The&nbsp;ISO-format&nbsp;datetime&nbsp;string&nbsp;to&nbsp;parse.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datetime:&nbsp;The&nbsp;parsed&nbsp;datetime&nbsp;object.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-parse_iso_datetime">parse_iso_datetime</a>('2021-10-15T13:45:00')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:&nbsp;datetime.datetime(2021,&nbsp;10,&nbsp;15,&nbsp;13,&nbsp;45)</tt></dd></dl>
+ <dl><dt><a name="-parse_user_date_str_to_datetime"><strong>parse_user_date_str_to_datetime</strong></a>(date_str)</dt><dd><tt>Parses&nbsp;a&nbsp;user-provided&nbsp;date&nbsp;string&nbsp;in&nbsp;day-first&nbsp;format&nbsp;(e.g.,&nbsp;'15/10/2021')<br>
+into&nbsp;a&nbsp;Python&nbsp;datetime&nbsp;object.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;date_str&nbsp;(str):&nbsp;The&nbsp;date&nbsp;string&nbsp;in&nbsp;day-first&nbsp;format&nbsp;(e.g.,&nbsp;'15/10/2021').<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datetime:&nbsp;The&nbsp;parsed&nbsp;datetime&nbsp;object.<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-parse_user_date_str_to_datetime">parse_user_date_str_to_datetime</a>('15/10/2021')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:&nbsp;datetime.datetime(2021,&nbsp;10,&nbsp;15,&nbsp;0,&nbsp;0)</tt></dd></dl>
+</td></tr></table>
+</body></html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module habit_tracker.analytics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="habit_tracker.html"><font color="#ffffff">habit_tracker</font></a>.analytics</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Cdesktop_2025%5Ccoll-projects%5Chabit_x%5Chabit_tracker%5Canalytics.py">d:\desktop_2025\coll-projects\habit_x\habit_tracker\analytics.py</a></font></td></tr></table>
+    <p><tt>Module&nbsp;for&nbsp;handling&nbsp;habit&nbsp;streak&nbsp;calculations&nbsp;and&nbsp;related&nbsp;operations.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;helper&nbsp;functions&nbsp;and&nbsp;service&nbsp;functions&nbsp;for&nbsp;tracking&nbsp;and&nbsp;calculating<br>
+streaks&nbsp;of&nbsp;habit&nbsp;completions&nbsp;(daily/weekly),&nbsp;considering&nbsp;the&nbsp;user's&nbsp;timezone.&nbsp;It&nbsp;uses&nbsp;the<br>
+Peewee&nbsp;ORM&nbsp;to&nbsp;interact&nbsp;with&nbsp;the&nbsp;Habit&nbsp;and&nbsp;Activity&nbsp;models.&nbsp;Key&nbsp;functionalities&nbsp;include&nbsp;getting<br>
+the&nbsp;longest&nbsp;streak,&nbsp;current&nbsp;streak,&nbsp;average&nbsp;streaks,&nbsp;and&nbsp;fetching&nbsp;streak&nbsp;data&nbsp;for&nbsp;specific<br>
+habits&nbsp;or&nbsp;all&nbsp;habits.<br>
+&nbsp;<br>
+Helper&nbsp;functions&nbsp;also&nbsp;support&nbsp;operations&nbsp;like&nbsp;formatting&nbsp;date&nbsp;strings,&nbsp;calculating&nbsp;streaks&nbsp;based<br>
+on&nbsp;local&nbsp;calendar&nbsp;days&nbsp;or&nbsp;weeks,&nbsp;and&nbsp;handling&nbsp;database&nbsp;errors.<br>
+&nbsp;<br>
+Imports:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;datetime&nbsp;(datetime):&nbsp;For&nbsp;working&nbsp;with&nbsp;date&nbsp;and&nbsp;time.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;peewee&nbsp;(fn,&nbsp;DatabaseError,&nbsp;IntegrityError):&nbsp;For&nbsp;working&nbsp;with&nbsp;the&nbsp;Peewee&nbsp;ORM&nbsp;and&nbsp;handling&nbsp;database&nbsp;errors.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;habit_tracker.models&nbsp;(Habit,&nbsp;Activity):&nbsp;Models&nbsp;for&nbsp;habit&nbsp;tracking&nbsp;and&nbsp;activity&nbsp;data.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;habit_tracker.utils&nbsp;(convert_user_date_str_to_iso,&nbsp;database_error_handler,&nbsp;get_current_utc_time,&nbsp;parse_iso_datetime):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Utility&nbsp;functions&nbsp;for&nbsp;date&nbsp;conversion,&nbsp;error&nbsp;handling,&nbsp;and&nbsp;formatting.<br>
+&nbsp;<br>
+Functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_habit_by_id(habit_id):&nbsp;Retrieve&nbsp;a&nbsp;habit&nbsp;by&nbsp;its&nbsp;ID&nbsp;with&nbsp;consistent&nbsp;error&nbsp;handling.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_longest_daily_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;longest&nbsp;streak&nbsp;of&nbsp;daily&nbsp;habit&nbsp;completions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_longest_weekly_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;longest&nbsp;streak&nbsp;of&nbsp;weekly&nbsp;habit&nbsp;completions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_current_daily_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;current&nbsp;streak&nbsp;of&nbsp;daily&nbsp;habit&nbsp;completions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_current_weekly_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;current&nbsp;streak&nbsp;of&nbsp;weekly&nbsp;habit&nbsp;completions.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_average_daily_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;average&nbsp;daily&nbsp;streak&nbsp;for&nbsp;a&nbsp;habit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;_get_average_weekly_streak(completed_dates):&nbsp;Calculate&nbsp;the&nbsp;average&nbsp;weekly&nbsp;streak&nbsp;for&nbsp;a&nbsp;habit.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-get_streak">get_streak</a>(habit_id,&nbsp;tz):&nbsp;Retrieve&nbsp;the&nbsp;streak&nbsp;(longest&nbsp;and&nbsp;current)&nbsp;for&nbsp;a&nbsp;specific&nbsp;habit,&nbsp;with&nbsp;optional&nbsp;timezone&nbsp;support.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_all_streaks(tz):&nbsp;Retrieve&nbsp;streak&nbsp;data&nbsp;for&nbsp;all&nbsp;habits,&nbsp;with&nbsp;optional&nbsp;timezone&nbsp;support.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list_habits(frequency=None,&nbsp;created_at=None,&nbsp;completed_at=None,&nbsp;timezone):&nbsp;List&nbsp;all&nbsp;habits&nbsp;with&nbsp;optional&nbsp;filters&nbsp;for&nbsp;frequency,&nbsp;creation&nbsp;date,&nbsp;or&nbsp;last&nbsp;completion&nbsp;date.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_most_consistent_habit(tz):&nbsp;Get&nbsp;the&nbsp;habit&nbsp;with&nbsp;the&nbsp;highest&nbsp;average&nbsp;streak,&nbsp;considering&nbsp;the&nbsp;user's&nbsp;timezone.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;get_least_consistent_habit(tz):&nbsp;Get&nbsp;the&nbsp;habit&nbsp;with&nbsp;the&nbsp;lowest&nbsp;average&nbsp;streak,&nbsp;considering&nbsp;the&nbsp;user's&nbsp;timezone.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="pytz.html">pytz</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-get_streak"><strong>get_streak</strong></a>(habit_id, tz=&lt;UTC&gt;)</dt><dd><tt>Retrieve&nbsp;the&nbsp;streak&nbsp;details&nbsp;(longest&nbsp;and&nbsp;current)&nbsp;for&nbsp;a&nbsp;specific&nbsp;habit,&nbsp;based&nbsp;on&nbsp;calendar&nbsp;days&nbsp;or&nbsp;weeks<br>
+in&nbsp;the&nbsp;user's&nbsp;timezone.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;habit_id&nbsp;(int):&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;habit&nbsp;to&nbsp;retrieve&nbsp;streak&nbsp;data&nbsp;for.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tz&nbsp;(pytz.timezone,&nbsp;optional):&nbsp;The&nbsp;timezone&nbsp;to&nbsp;convert&nbsp;completion&nbsp;dates&nbsp;to.&nbsp;Defaults&nbsp;to&nbsp;UTC.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;A&nbsp;dictionary&nbsp;containing&nbsp;streak&nbsp;information,&nbsp;including&nbsp;the&nbsp;longest&nbsp;and&nbsp;current&nbsp;streaks.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"streak":&nbsp;int,&nbsp;&nbsp;#&nbsp;The&nbsp;longest&nbsp;streak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"table":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"habit_id":&nbsp;int,&nbsp;&nbsp;#&nbsp;Habit&nbsp;ID<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"habit_name":&nbsp;str,&nbsp;&nbsp;#&nbsp;Habit&nbsp;Name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"longest_streak":&nbsp;int,&nbsp;&nbsp;#&nbsp;Longest&nbsp;Streak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"current_streak":&nbsp;int&nbsp;&nbsp;#&nbsp;Current&nbsp;Streak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;<br>
+Example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#-get_streak">get_streak</a>(1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns:&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"streak":&nbsp;5,&nbsp;&nbsp;#&nbsp;Longest&nbsp;streak&nbsp;of&nbsp;5&nbsp;days<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"table":&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"habit_id":&nbsp;1,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"habit_name":&nbsp;"Exercise",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"longest_streak":&nbsp;5,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"current_streak":&nbsp;3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;<br>
+:param&nbsp;habit_id:&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;habit&nbsp;to&nbsp;retrieve&nbsp;streak&nbsp;details&nbsp;for.<br>
+:param&nbsp;tz:&nbsp;The&nbsp;timezone&nbsp;to&nbsp;use&nbsp;for&nbsp;date&nbsp;comparisons&nbsp;(default&nbsp;is&nbsp;UTC).</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>fn</strong> = &lt;peewee.Function object&gt;</td></tr></table>
+</body></html>
