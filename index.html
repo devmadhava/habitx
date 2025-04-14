@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Tracker CLI Commands</title>
+    <style>
+        body {
+            font-family: Monospaced, monospace;
+            padding: 2rem;
+            background: #f7f7f7;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 90%;
+        }
+        .command {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-left: 5px solid #009688;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .command h3 {
+            margin-top: 0;
+        }
+        .param {
+            margin-left: 1rem;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border-radius: 4px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            color: white;
+            background-color: #009688;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Habit Tracker CLI Help</h1>
+    <p>This page documents all available commands in the <code>habitx</code> CLI app built using Python Fire.</p>
+
+    <div class="command">
+        <h3><code>list</code></h3>
+        <p>List all habits. With the ability to filter list and include current and longest streak.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-d</code></td>
+                    <td>Habit Creation Date</td>
+                    <td>Example: <code>habitx -d 01.01.2020</code></td>
+                </tr>
+                <tr>
+                    <td><code>-c</code></td>
+                    <td>Date in which Habit was completed</td>
+                    <td>Example: <code>habitx -c 01.01.2020</code></td>
+                </tr>
+                <tr>
+                    <td><code>-f</code></td>
+                    <td>Habit Frequency (Daily or Weekly)</td>
+                    <td>Example: <code>habitx -f daily</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>add</code></h3>
+        <p>Add a Habit.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-n</code></td>
+                    <td>Habit Name</td>
+                    <td>Example: <code>habitx -n "Running Daily"</code></td>
+                </tr>
+                <tr>
+                    <td><code>-d</code></td>
+                    <td>Description of the Habit</td>
+                    <td>Example: <code>habitx -d "Run 10 KM everyday"</code></td>
+                </tr>
+                <tr>
+                    <td><code>-f</code></td>
+                    <td>Habit Frequency (Daily or Weekly)</td>
+                    <td>Example: <code>habitx -f daily</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>delete</code></h3>
+        <p>Delete a habit by its ID.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-i</code></td>
+                    <td>ID of the habit to delete. If not provided, user will be prompted.</td>
+                    <td>Example: <code>habitx delete -i 1</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>mark</code></h3>
+        <p>Mark a habit as completed for today.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-i</code></td>
+                    <td>ID of the habit to mark as completed. If not provided, user will be prompted.</td>
+                    <td>Example: <code>habitx mark -i 2</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>unmark</code></h3>
+        <p>Unmark a habit (undo today's completion).</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-i</code></td>
+                    <td>ID of the habit to unmark. If not provided, user will be prompted.</td>
+                    <td>Example: <code>habitx unmark -i 2</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>edit</code></h3>
+        <p>Edit an existing habit's name and description. Frequency cannot be changed.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-i</code></td>
+                    <td>ID of the habit to edit. If not provided, user will be prompted.</td>
+                    <td>Example: <code>habitx edit -i 1</code></td>
+                </tr>
+                <tr>
+                    <td><code>-n</code></td>
+                    <td>The new name of the habit.</td>
+                    <td>Example: <code>habitx edit -i 1 -n "Morning Jog"</code></td>
+                </tr>
+                <tr>
+                    <td><code>-d</code></td>
+                    <td>The new description of the habit.</td>
+                    <td>Example: <code>habitx edit -i 1 -d "Jogging for 30 minutes every morning"</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>streak</code></h3>
+        <p>Display the streak statistics for a specific habit by ID.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-i</code></td>
+                    <td>ID of the habit to view streaks for. If not provided, user will be prompted.</td>
+                    <td>Example: <code>habitx streak -i 1</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>consistent</code></h3>
+        <p>Show consistency metrics for all habits.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>N/A</code></td>
+                    <td>No flags required. Displays consistency metrics for all habits.</td>
+                    <td>Example: <code>habitx consistent</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>user</code></h3>
+        <p>Display or edit the user's configuration including username, timezone, and terminal color.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-e</code></td>
+                    <td>If True, prompts the user to edit their configuration.</td>
+                    <td>Example: <code>habitx user -e</code></td>
+                </tr>
+                <tr>
+                    <td><code>-n</code></td>
+                    <td>The new username. If None, prompts the user.</td>
+                    <td>Example: <code>habitx user -n "NewUsername"</code></td>
+                </tr>
+                <tr>
+                    <td><code>-tz</code></td>
+                    <td>The new timezone. If None, prompts the user.</td>
+                    <td>Example: <code>habitx user -tz "America/New_York"</code></td>
+                </tr>
+                <tr>
+                    <td><code>-c</code></td>
+                    <td>The new terminal color. If None, prompts the user.</td>
+                    <td>Example: <code>habitx user -c "green"</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="command">
+        <h3><code>run</code></h3>
+        <p>Entry point for the CLI interface.</p>
+        <p>The <code>run</code> command launches the Text-based User Interface (TUI), presenting the user with a graphical menu-driven system for interacting with the HabitX application.</p>
+        <p>The TUI provides the following functionality:</p>
+        <ul>
+            <li><strong>Habit Management:</strong> Add, edit, delete, and mark habits as completed or uncompleted.</li>
+            <li><strong>Analytics:</strong> View streaks, consistency, and other habit statistics in a clean, table-based format.</li>
+            <li><strong>User Configuration:</strong> View and edit user details such as username, timezone, and terminal color.</li>
+            <li><strong>Main Menu Navigation:</strong> Allows easy navigation between the different features of the app.</li>
+        </ul>
+    </div>
+
+
+</body>
+</html>
