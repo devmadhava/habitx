@@ -36,7 +36,7 @@ def setup_test_data():
 
     # Weekly Habit 2: No Longest, 1 Current Streak
     single = Habit.create(name="Lonely Weekly", description="Only one weekly entry", frequency="WEEKLY")
-    Activity.create(habit=single, completed_at=convert_date_to_utc(today - timedelta(days=3)))  # within current week
+    Activity.create(habit=single, completed_at=convert_date_to_utc(today))  # within current week
 
     # Daily Habit 3: 7 Day Longest, 7 Day Current
     perfect = Habit.create(name="Perfect Daily", description="Perfect 7-day streak", frequency="DAILY")
@@ -44,14 +44,6 @@ def setup_test_data():
         Activity.create(habit=perfect, completed_at=convert_date_to_utc(today - timedelta(days=i)))
 
     return daily, weekly, broken, single, perfect
-
-
-import pytest
-import pytz
-from habit_tracker.analytics import (
-    get_streak, list_habits,
-    get_most_consistent_habit, get_least_consistent_habit
-)
 
 @pytest.mark.parametrize("tz", [
     pytz.UTC,
