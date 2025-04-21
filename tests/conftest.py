@@ -1,6 +1,6 @@
 import pytest
 from peewee import SqliteDatabase
-from habit_tracker.models import Habit, Config, Activity
+from habit_tracker.models import Habit, Activity, Config
 
 test_db = SqliteDatabase(":memory:")
 

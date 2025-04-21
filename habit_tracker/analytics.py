@@ -177,6 +177,7 @@ def _get_current_daily_streak(completed_dates, user_tz):
     # Convert all to user-local calendar dates
     local_dates = [dt.astimezone(user_tz).date() for dt in completed_dates]
     today = datetime.now(user_tz).date()
+    # today = datetime.now(user_tz).astimezone(user_tz).date()
 
     if local_dates[-1] != today:
         return 0
@@ -185,6 +186,8 @@ def _get_current_daily_streak(completed_dates, user_tz):
     for i in range(len(local_dates) - 1, 0, -1):
         if (local_dates[i] - local_dates[i - 1]).days == 1:
             streak += 1
+        elif local_dates[i] == local_dates[i - 1]:
+            continue
         else:
             break
 
