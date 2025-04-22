@@ -61,6 +61,8 @@ or
 habit_x run
 ```
 
+To exit the TUI mode you have to just press `Ctrl + C`
+
 <br>
 
 2. ***In CLI Mode***: Run specific commands directly:
@@ -266,7 +268,6 @@ To run the full test suite using pytest:
 - Clone the Repository
 - Install the requirements
 - Run the following command
-- 
 ```bash
 pytest
 ```

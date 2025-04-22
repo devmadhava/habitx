@@ -524,6 +524,8 @@ class CLI:
             self._console_print("1. Add Habit")
             self._console_print("2. Edit Habit")
             self._console_print("3. Delete Habit")
+            self._console_print("4. Mark Habit as Complete [For today]")
+            self._console_print("5. Unmark Habit as Complete [For today]")
             self._console_print("9. Go Back")
             self._console_print("0. Exit")
             user_input = self._console_prompt("Please select an option")
@@ -537,6 +539,12 @@ class CLI:
                 case "3":
                     self.list()
                     self.delete()
+                case "4":
+                    self.list()
+                    self.mark()
+                case "5":
+                    self.list()
+                    self.unmark()
                 case "9":
                     self._main_menu()
                     break
@@ -564,7 +572,7 @@ class CLI:
         while True:
             self._console_print("1. List All")
             self._console_print("2. List All With Streak")
-            self._console_print("3. Longest Streak")
+            self._console_print("3. Longest Streak of a give Habit")
             self._console_print("4. Consistency")
             self._console_print("9. Go Back")
             self._console_print("0. Exit")
@@ -633,4 +641,5 @@ class CLI:
         ascii_art = pyfiglet.figlet_format("HabitX")
         self._console_print(ascii_art)
         self._console_print("Welcome, user. Habit X is here to axe your bad habits and develop healthy lifestyle.")
+        self._console_print("You can exit any time by pressing Ctrl + C or by entering any invalid input.")
         self._main_menu()
